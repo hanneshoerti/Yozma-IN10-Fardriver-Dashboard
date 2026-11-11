@@ -1,0 +1,20 @@
+# Gradle / Android Studio
+.gradle/
+build/
+.idea/
+*.iml
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Signing
+*.jks
+*.keystore
+
+# Bluetooth-Mitschnitte / Bugreports (enthalten MAC-Adressen & Daten anderer Geraete)
+*.log
+*.log.last
+btsnoop*
+bugreport*
+report*.zip

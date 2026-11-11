@@ -1,0 +1,6 @@
+<resources>
+    <style name="Theme.FardriverDash" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">#0B0E14</item>
+        <item name="android:windowBackground">#0B0E14</item>
+    </style>
+</resources>
