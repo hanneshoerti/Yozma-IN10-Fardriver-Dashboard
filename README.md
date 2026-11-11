@@ -107,8 +107,10 @@ Mit [Android Studio](https://developer.android.com/studio) den Ordner öffnen un
 "Apply compatible Gradle JDK configuration and sync" anklicken. Das Projekt braucht JDK 17
 und Gradle 8.7.
 
-Bei jedem Tag `v*` (z. B. `v0.1.0`) baut GitHub Actions die APK automatisch und hängt sie an ein
-Release. Den Workflow findest du unter `.github/workflows/build-apk.yml`.
+**Neues Release ohne eigenen Build:** Auf GitHub unter **Actions → APK bauen → Run workflow** eine
+Version eintragen (z. B. `v0.2.0`). GitHub baut die APK dann selbst und legt das Release mit der
+APK an. Ein gepushter Tag `v*` hat denselben Effekt. Den Workflow findest du unter
+`.github/workflows/build-apk.yml`.
 
 ```
 app/src/main/java/com/fardriver/dash/

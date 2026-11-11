@@ -4,6 +4,11 @@ on:
   push:
     tags: ["v*"]
   workflow_dispatch:
+    inputs:
+      version:
+        description: "Version fuer das Release, z. B. v0.1.0 (leer = nur bauen)"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -31,8 +36,10 @@ jobs:
 
       - name: APK umbenennen
         run: |
-          VERSION="${GITHUB_REF_NAME}"
-          [ "${GITHUB_REF_TYPE}" = "tag" ] || VERSION="build-${GITHUB_RUN_NUMBER}"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then VERSION="${GITHUB_REF_NAME}"
+          elif [ -n "${{ inputs.version }}" ]; then VERSION="${{ inputs.version }}"
+          else VERSION="build-${GITHUB_RUN_NUMBER}"; fi
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
           cp app/build/outputs/apk/debug/app-debug.apk "Yozma-Dashboard-${VERSION}.apk"
           echo "APK_NAME=Yozma-Dashboard-${VERSION}.apk" >> "$GITHUB_ENV"
 
@@ -42,11 +49,13 @@ jobs:
           path: ${{ env.APK_NAME }}
 
       - name: Release anlegen
-        if: github.ref_type == 'tag'
+        if: github.ref_type == 'tag' || inputs.version != ''
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ env.VERSION }}
+          target_commitish: ${{ github.sha }}
           files: ${{ env.APK_NAME }}
-          name: Yozma Dashboard ${{ github.ref_name }}
+          name: Yozma Dashboard ${{ env.VERSION }}
           body: |
             Installierbare APK fuer Android 8.0 oder neuer.
             Installation und Einrichtung: siehe README.
